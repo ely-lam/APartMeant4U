@@ -12,8 +12,9 @@ export default function Navigation({ user }) {
       <ul className="navbar-nav ml-auto">
         <li>
           {user ? (
-            <div className="nav-item">
-              <div>Welcome {user} <Link onClick={onLogout}>Logout</Link></div>{" "}
+            <div>
+              <Link className="nav-item">User: {user}</Link>
+              <Link className="nav-item" onClick={onLogout}>Logout</Link>
             </div>
           ) : (
             <div>
