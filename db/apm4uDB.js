@@ -19,23 +19,23 @@ function MyDB() {
 
     const db = client.db(dbName);
 
-    myDB.insertListings = async (db, callback) => {
-      // Get the documents collection
-      const collection = db.collection("aptlistings");
-      // Insert some documents
-      db.collection("inserts").insertOne({
-        a:1
-        , b: function() { return "hello"; }
-      }, {
-        w: "majority"
-        , wtimeout: 10000
-        , serializeFunctions: true
-      }, function(err, r) {
-        assert.equal(null, err);
-        assert.equal(1, r.insertedCount);
-        client.close();
-      });
-    };
+    // myDB.insertListings = async (db, callback) => {
+    //   // Get the documents collection
+    //   const collection = db.collection("aptlistings");
+    //   // Insert some documents
+    //   db.collection("inserts").insertOne({
+    //     a:1
+    //     , b: function() { return "hello"; }
+    //   }, {
+    //     w: "majority"
+    //     , wtimeout: 10000
+    //     , serializeFunctions: true
+    //   }, function(err, r) {
+    //     assert.equal(null, err);
+    //     assert.equal(1, r.insertedCount);
+    //     client.close();
+    //   });
+    // };
 
     myDB.initializeUsers = async () => {
       const users = db.collection("users");
@@ -53,9 +53,10 @@ function MyDB() {
         .finally(() => client.close());
     };
 
-    myDB.getPlayer = async () => {
-      const players = db.collection("players"); // access players collection
-      return players.find({}).toArray(); // return the players file
+    myDB.getListings = async () => {
+      const listings = db.collection("aptlistings"); // access apt listings collection
+      const query = {};
+      return listings.find(query).toArray(); // return the listings file (JSON)
     };
 
     // client.close();

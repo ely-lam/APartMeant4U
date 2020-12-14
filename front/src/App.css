@@ -22,10 +22,11 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  position: sticky;
 }
 
 .App-link {
-  color: #61dafb;
+  color: #007EA8;
 }
 
 @keyframes App-logo-spin {
@@ -39,8 +40,41 @@
 
 .row {
   padding-left: 10px;
+  padding-right: 10px;
+}
+
+.navbar {
+  background-color: #FFD3A6; /* light orange */
+  position: sticky;
+  width: 100%;
+  top: 0;
 }
 
 .nav-item {
   padding-left: 30px;
+  color: #007EA8; /* light blue */
+}
+
+.copyright-link {
+  color: #007EA8;
+}
+
+.skip-link {  
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #000000;
+  color: white;
+  padding: 8px;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+.footer {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
 }

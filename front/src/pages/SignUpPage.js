@@ -3,6 +3,7 @@ import "../styles/userPage.css";
 export default function SignUpPage() {
   return (
     <div className="userPage" id="signup">
+      <br/>
       <form action="/signup" method="post">
         <div>
           <label>
@@ -19,7 +20,7 @@ export default function SignUpPage() {
             Confirm Password: <input type="password" name="passwordConfirm" id="passwordConfirm"/>
           </label>
         </div>
-        <button type="submit">Create User</button>
+        <button className="btn btn-primary" type="submit">Create User</button>
       </form>
     </div>
   );

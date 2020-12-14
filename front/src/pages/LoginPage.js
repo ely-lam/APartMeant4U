@@ -3,6 +3,7 @@ import "../styles/userPage.css";
 export default function LoginPage() {
   return (
     <div className="userPage" id="login">
+      <br/>
       <form action="/login" method="post">
         <div>
           <label>
@@ -14,7 +15,7 @@ export default function LoginPage() {
             Password: <input type="password" name="password" id="password"/>
           </label>
         </div>
-        <button type="submit">Login</button>
+        <button className="btn btn-primary" type="submit">Login</button>
       </form>
     </div>
   );

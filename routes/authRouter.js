@@ -56,20 +56,24 @@ router.post("/signup", async (req, res, cb) => {
   }
 
   console.log("User " + req.user.username + " created", req.body);
-  res.redirect("/login");
+  res.redirect("/login?msg='User created succesfully'");
 });
 
 router.get("/getUser", (req, res) => {
   res.send({ username: req.user ? req.user.username : null });
   console.log("user:", req.user.username);
-}
-);
+});
 
-router.get("/logout",
-  function(req, res) {
-    req.logout();
-    res.send({});
-  });
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.send({});
+});
+
+router.get("/getListings", async (req, res) => {
+  const listings = await aptDB.getListings();
+  res.json(listings); // get apt listings
+  console.log("Fetch listings", listings);
+});
 
 
 module.exports = router;
