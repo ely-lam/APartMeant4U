@@ -2,18 +2,25 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 
-export default function Navigation() {
+export default function Navigation({ user }) {
+  function onLogout() {
+    fetch("/logout").then((res) => (window.location.href = "/"));
+  }
   return (
-    <nav>
-      <ul>
+    <nav  className="navbar navbar-expand-lg navbar-light bg-light">
+      <Link class="navbar-brand" to ="/">APartMeant4U</Link>
+      <ul className="navbar-nav ml-auto">
         <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
-        <li>
-          <Link to="/logout">Logout</Link>
+          {user ? (
+            <div className="nav-item">
+              <div>Welcome {user} <Link onClick={onLogout}>Logout</Link></div>{" "}
+            </div>
+          ) : (
+            <div>
+              <Link className="nav-item" to="/login">Sign In</Link>
+              <Link className="nav-item" to="/signup">Sign Up</Link>
+            </div>
+          )}
         </li>
       </ul>
     </nav>

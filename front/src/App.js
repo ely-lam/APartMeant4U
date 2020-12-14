@@ -1,5 +1,5 @@
 import './App.css';
-
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,41 +7,52 @@ import {
   Link
 } from "react-router-dom";
 
+import 'bootstrap/dist/css/bootstrap.min.css'; // bootstrap css
+
 import Navigation from "./components/Navigation.js";
 
 import LoginPage from "./pages/LoginPage.js";
+import SignUpPage from "./pages/SignUpPage.js";
+import HomePage from "./pages/HomePage.js";
+import AptListingsPage from "./pages/AptListingsPage.js";
 
-import homePageIcon from "./images/home-128.png";
-
-function LogoutPage() {
-  return <div></div>;
-}
-
-function HomePage() {
-  return <div><img src={homePageIcon} alt="Home Page" width="64"/></div>;
-}
 
 function App() {
+  const [user, setUser] = useState("");
+
+  function getUser() {
+    fetch("/getUser")
+      .then((res) => res.json())
+      .then((_user) => {
+        if (_user.username) setUser(_user.username);
+      });
+  }
+
+  useEffect(getUser, []);
+
   return (
     <Router>
       <div className="App container">
-        <header>
-          <h1>APartMeant4U</h1>
-        </header>
-        
-        <Navigation></Navigation>
+        <Navigation user={user}></Navigation>
 
-        <Switch>
-          <Route path="/login">
-            <LoginPage />
-          </Route>
-          <Route path="/logout">
-            <LogoutPage />
-          </Route>
-          <Route path="/">
-            <HomePage />
-          </Route>
-        </Switch>
+        <div className="row" padding-left="15px">
+          <div className="col-sm">
+            <Switch>
+              <Route path="/login">
+                <LoginPage />
+              </Route>
+              <Route path="/signup">
+                <SignUpPage />
+              </Route>
+              <Route path="/listings">
+                <AptListingsPage />
+              </Route>
+              <Route path="/">
+                <HomePage />
+              </Route>
+            </Switch>
+          </div>
+        </div>
 
         <br/>
         <footer>
