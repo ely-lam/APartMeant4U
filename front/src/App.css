@@ -43,11 +43,17 @@
   padding-right: 10px;
 }
 
-.navbar {
+.navigation {
   background-color: #FFD3A6; /* light orange */
-  position: sticky;
+  position: fixed;
+  padding-top: 10px;
+  padding-bottom: 10px;
   width: 100%;
   top: 0;
+}
+
+.navbar-brand {
+  text-align: center;
 }
 
 .nav-item {
@@ -73,8 +79,15 @@
   top: 0;
 }
 
+.blank-text {
+  color: #FFD3A6;
+}
+
 .footer {
   position: fixed;
-  bottom: 10px;
+  bottom: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   width: 100%;
+  background-color: white;
 }

@@ -25,6 +25,7 @@ function AptListingsPage(props) {
           </div>
           <div className="card-body">
             <p className="card-text">{a.titletextonly}</p>
+            <a href="#" class="btn btn-primary">View Listing</a>
           </div>
           <div class="card-footer text-muted">
             <a className="card-link" href="#">

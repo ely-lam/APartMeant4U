@@ -14,7 +14,7 @@ import SignUpPage from "./pages/SignUpPage.js";
 import HomePage from "./pages/HomePage.js";
 import AptListingsPage from "./pages/AptListingsPage.js";
 
-import homePageIcon from "./images/home-128.png"; // nav brand icon
+import homePageIcon from "./images/home-64.png"; // nav brand icon
 
 
 function App() {
@@ -52,8 +52,10 @@ function App() {
       <div className="App container">
         <header>
           <Link className="skip-link" href="#maincontent">Skip to main</Link>
-          <nav className="navbar navbar-expand-lg navbar-light">
-            <a className="navbar-brand" href="/"><img src={homePageIcon} alt="Home Page" width="32"/>{" "}APartMeant4U</a>
+          <nav className="navigation navbar navbar-light">
+            <a href="/"><img src={homePageIcon} alt="Home Page" width="24" vertical-align="center"/></a>
+            <span className="blank-text" href="/">a</span>
+            <a className="navbar-brand" href="/">{" "}APartMeant4U</a>
             <ul className="navbar-nav ml-auto">
               {user ? (
                 <li>
@@ -93,7 +95,7 @@ function App() {
         <br/>
         <br/>
         <footer className="footer">
-          <h5>APartMeant4U - Ely Lam 2020 ©</h5>
+          <div>APartMeant4U - Ely Lam 2020 ©</div>
           <div>Icons made by <a className="copyright-link" href="https://www.flaticon.com/authors/monkik" title="monkik">monkik</a> from <a className="copyright-link" href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
         </footer>
       </div>
