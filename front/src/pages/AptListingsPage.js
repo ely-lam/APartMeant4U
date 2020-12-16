@@ -172,15 +172,17 @@ function AptListingsPage(props) {
                   </div>
                   <div className="card-body">
                     <p className="card-text">{a.titletextonly}</p>
-                    <button
-                      className="btn btn-primary"
-                      onClick={(evt) => {
-                        evt.preventDefault();
-                        setShowListings(false);
-                        setCurrentListing(`${a._id}`);
-                      }}>
-                      View Listing
-                    </button>
+                    <form className="text-center">
+                      <button
+                        className="btn btn-primary"
+                        onClick={(evt) => {
+                          evt.preventDefault();
+                          setShowListings(false);
+                          setCurrentListing(`${a._id}`);
+                        }}>
+                        View Listing
+                      </button>
+                    </form>
                     <form className="text-center" action="/newFav" method="post">
                       <input
                         type="hidden"
