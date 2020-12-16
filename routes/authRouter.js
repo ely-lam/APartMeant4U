@@ -72,6 +72,8 @@ router.post("/deleteUser", async (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
+  // Based on passport documentation, I think logout() will also clear the user's login session.
+  // So you don't need to call session.destroy here.
   req.logout();
   req.session.destroy();
   res.redirect("/?msg=Signed out successfully.");
