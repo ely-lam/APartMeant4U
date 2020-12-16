@@ -4,10 +4,12 @@ import Navigation from "../components/Navigation.js";
 
 export default function HomePage() {
   return (
-    <div className="center">
+    <div>
       <Navigation />
-      <div>Search our listings and find your dream apartment!</div>
-      <img src={homePageIcon} alt="Home Page" width="400px"/>
+      <div className="center">
+        <div>Search our listings and find your dream apartment!</div>
+        <img src={homePageIcon} alt="Home Page" width="400px"/>
+      </div>
     </div>
   );
 }
