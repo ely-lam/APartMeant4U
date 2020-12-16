@@ -2,6 +2,12 @@ import "../styles/userPage.css";
 import Navigation from "../components/Navigation.js";
 
 export default function LoginPage(props) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const username = urlParams.get("username");
+  if (username !== null && username !== undefined) {
+    localStorage.setItem("username", username);
+  }
+  
   return (
     <div className="userPage" id="login">
       <Navigation />

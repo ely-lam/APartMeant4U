@@ -5,7 +5,7 @@ import Pagination from "@material-ui/lab/Pagination";
 // import { getAllListings, searchAllListings } from "../../api/thread";
 
 import ListingService from "../services/ListingService.js";
-import listingDetails from "../components/aptListings.js";
+import ListingDetails from "../components/aptListings.js";
 
 import "../styles/aptListingsPage.css";
 
@@ -20,20 +20,25 @@ function AptListingsPage(props) {
   if (username !== null && username !== undefined) {
     localStorage.setItem("username", username);
   }
+  let searchDescriptionParam = urlParams.get("searchDesc");
+  if (searchDescriptionParam !== null && searchDescriptionParam !== undefined) {
+    localStorage.setItem("searchDesc", searchDescriptionParam);
+  }
+  let searchDescriptionGet = localStorage.getItem("searchDesc");
+  if (searchDescriptionGet !== null || searchDescriptionGet !== undefined) {
+    searchDescriptionGet = "";
+  }
 
   const [search, setSearch] = useState("");
-  const [searchDescription, setSearchDescription] = useState("");
+  const [searchDescription, setSearchDescription] = useState(searchDescriptionGet);
   const [listings, setListings] = useState([]);
-  // const [showListings, setShowListings] = useState([]);
+  const [showListings, setShowListings] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(-1);
-  // const [currentListing, setCurrentListing] = useState(null);
-  // const [currentIndex, setCurrentIndex] = useState(-1);
+  const [currentListing, setCurrentListing] = useState("");
 
   const [page, setPage] = useState(1);
   const [skip, setSkip] = useState(0);
   const [limit, setLimit] = useState(10);
-
-  // const limits = [10, 20, 50];
 
   function onLogout() {
     fetch("/logout").then((res) => (window.location.href = "/login"));
@@ -46,6 +51,7 @@ function AptListingsPage(props) {
 
   const onChangeSearchDescription = (e) => {
     const searchDescription = e.target.value;
+    // (searchDescriptionGet !== null ? setSearchDescription(searchDescriptionGet) : setSearchDescription(searchDescription));
     setSearchDescription(searchDescription);
   };
 
@@ -67,29 +73,29 @@ function AptListingsPage(props) {
     return params;
   };
 
-  const retrieveListings = () => {
-    const params = getRequestParams(search, page, limit);
+  // const retrieveListings = () => {
+  //   const params = getRequestParams(search, page, limit);
 
-    ListingService.getAllListings(params)
-      .then((response) => {
-        const { listings, totalPages } = response.data;
+  //   ListingService.getAllListings(params)
+  //     .then((response) => {
+  //       const { listings, totalPages } = response.data;
 
-        setListings(listings);
-        setSkip(totalPages);
+  //       setListings(listings);
+  //       setSkip(totalPages);
 
-        console.log(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+  //       console.log(response.data);
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // };
 
-  useEffect(retrieveListings, [page, limit]);
+  // useEffect(retrieveListings, [page, limit]);
 
-  const refreshList = () => {
-    retrieveListings();
-    setCurrentIndex(-1);
-  };
+  // const refreshList = () => {
+  //   retrieveListings();
+  //   setCurrentIndex(-1);
+  // };
 
   // const setActiveListing = (tutorial, index) => {
   //   setCurrentIndex(index);
@@ -126,17 +132,9 @@ function AptListingsPage(props) {
                 value={search}
                 onChange={onChangeSearch}
               />
-              <div className="input-group-append">
-                <button
-                  className="btn btn-primary"
-                  type="button"
-                  onClick={retrieveListings}
-                >
-                  Search
-                </button>
-              </div>
             </div>
           </label>
+          <br/>
           <label htmlFor="searchDescription" padding-left="20px">
             <div className="input-group-append">
               <input
@@ -146,15 +144,6 @@ function AptListingsPage(props) {
                 value={searchDescription}
                 onChange={onChangeSearchDescription}
               />
-              <div className="input-group-append">
-                <button
-                  className="btn btn-primary"
-                  type="button"
-                  onClick={retrieveListings}
-                >
-                  Search
-                </button>
-              </div>
             </div>
           </label>
           <Pagination
@@ -167,62 +156,81 @@ function AptListingsPage(props) {
             shape="rounded"
             onChange={handlePageChange}
           />
-          <ul className="apt-ul card-columns">
+          {showListings ? <ul className="apt-ul card-columns">
             {props.listings
-            .filter((a) => a.mapaddress && ((search !== "") ? a.mapaddress.toLowerCase().startsWith(search.toLowerCase()) : a.titletextonly.toLowerCase().startsWith(searchDescription.toLowerCase())))
-            .map((a, idx) => (
-              <li key={idx} className="apt-li card">
-                <img
-                  className="apt card-img-top"
-                  src={a.images[0]}
-                  alt={a.mapaddress}
-                  title={a.mapaddress}
-                />{" "}
-                <div className="card-header">
-                  <h4 className="card-title">{a.mapaddress}</h4>
-                </div>
-                <div className="card-body">
-                  <p className="card-text">{a.titletextonly}</p>
-                  <form action={`/details=${a._id}`} method="post">
-                    <button className="btn btn-primary">View Listing</button>
-                  </form>
-                  <form action="/newFav" method="post">
-                    <input
-                      type="hidden"
-                      name="addFav"
-                      id={a._id}
-                      value={a._id}
-                    />
-                    <input
-                      type="hidden"
-                      name="user"
-                      id={`${a._id} user`}
-                      value={username}
-                    />
-                    <button className="btn btn-primary" type="submit">Add to favorites</button>
-                  </form>
-                </div>
-                <div className="card-footer text-muted">
-                  <a className="card-link" href="#">
-                    <img
-                      className="tag"
-                      src={parkingImg}
-                      alt="Parking available"
-                      title="Parking available"
-                    />
-                  </a>
-                  <a className="card-link" href="#">
-                    <img
-                      className="tag"
-                      src={laundryImg}
-                      alt="Washer/Dryer unit"
-                      title="Washer/Dryer unit"
-                    />
-                  </a>
-                </div>
-              </li>
-            ))}
-          </ul>
+              .filter((a) => a.mapaddress && ((search !== "") ? a.mapaddress.toLowerCase().startsWith(search.toLowerCase()) : a.titletextonly.toLowerCase().includes(searchDescription.toLowerCase())))
+              .map((a, idx) => (
+                <li key={idx} className="apt-li card">
+                  <img
+                    className="apt card-img-top"
+                    src={a.images[0]}
+                    alt={a.mapaddress}
+                    title={a.mapaddress}
+                  />{" "}
+                  <div className="card-header">
+                    <h4 className="card-title">{a.mapaddress}</h4>
+                  </div>
+                  <div className="card-body">
+                    <p className="card-text">{a.titletextonly}</p>
+                    <button
+                      className="btn btn-primary"
+                      onClick={(evt) => {
+                        evt.preventDefault();
+                        setShowListings(false);
+                        setCurrentListing(`${a._id}`);
+                      }}>
+                      View Listing
+                    </button>
+                    <form className="text-center" action="/newFav" method="post">
+                      <input
+                        type="hidden"
+                        name="addFav"
+                        id={a._id}
+                        value={a._id}
+                      />
+                      <input
+                        type="hidden"
+                        name="user"
+                        id={`${a._id} user`}
+                        value={username}
+                      />
+                      <button className="btn btn-primary" type="submit">Add to favorites</button>
+                    </form>
+                  </div>
+                  <div className="card-footer text-muted">
+                    <Link className="card-link" to="/listings?username=hi&searchDesc=parking">
+                      <img
+                        className="tag"
+                        src={parkingImg}
+                        alt="Parking available"
+                        title="Parking available"
+                      />
+                    </Link>
+                    <Link className="card-link" href="/listings?username=hi&searchDesc=w%2Fd">
+                      <img
+                        className="tag"
+                        src={laundryImg}
+                        alt="Washer/Dryer unit"
+                        title="Washer/Dryer unit"
+                      />
+                    </Link>
+                  </div>
+                </li>
+              ))}
+            </ul> :
+            <div>
+              <button
+                className="btn btn-primary"
+                onClick={(evt) => {
+                  evt.preventDefault();
+                  setShowListings(true);
+                  setCurrentListing("");
+                }}>
+                Back
+              </button>
+              <ListingDetails apt={currentListing} listings={props.listings}/>
+            </div>
+          }
         </div>
       </div>
     </div>

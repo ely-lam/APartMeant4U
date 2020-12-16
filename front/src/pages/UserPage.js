@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import ReactPaginate from "react-paginate";
 
 import homePageIcon from "../images/home-512.png";
 import parkingImg from "../images/parking.png";
 import laundryImg from "../images/laundry.png";
 
 export default function UserPage(props) {
-  const [page, setPage] = useState(1);
-
   const urlParams = new URLSearchParams(window.location.search);
   const username = urlParams.get("username");
   if (username !== null && username !== undefined) {
@@ -67,10 +64,6 @@ export default function UserPage(props) {
       ))
   }
 
-  const handlePageChange = (event, value) => {
-    setPage(value);
-  };
-
   console.log("rendering favorites");  
   return (
     <div>
@@ -88,30 +81,7 @@ export default function UserPage(props) {
       </nav>
       <div className="favorites">
         <h4>Favorites</h4>
-        <ReactPaginate
-          previousLabel={"← Previous"}
-          nextLabel={"Next →"}
-          pageCount="10"
-          onPageChange={handlePageChange}
-          containerClassName={"pagination"}
-          previousLinkClassName={"pagination__link"}
-          nextLinkClassName={"pagination__link"}
-          disabledClassName={"pagination__link--disabled"}
-          activeClassName={"pagination__link--active"}
-        />
-
         <ul className="apt-ul card-columns">{renderFavorites()}</ul>
-        <ReactPaginate
-          previousLabel={"← Previous"}
-          nextLabel={"Next →"}
-          pageCount="10"
-          onPageChange={handlePageChange}
-          containerClassName={"pagination"}
-          previousLinkClassName={"pagination__link"}
-          nextLinkClassName={"pagination__link"}
-          disabledClassName={"pagination__link--disabled"}
-          activeClassName={"pagination__link--active"}
-        />
       </div>
     </div>
   );
