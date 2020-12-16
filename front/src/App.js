@@ -1,5 +1,6 @@
 import './App.css';
 import React, { useState, useEffect } from "react";
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,22 +14,30 @@ import LoginPage from "./pages/LoginPage.js";
 import SignUpPage from "./pages/SignUpPage.js";
 import HomePage from "./pages/HomePage.js";
 import AptListingsPage from "./pages/AptListingsPage.js";
-
-import homePageIcon from "./images/home-64.png"; // nav brand icon
-
+import UserPage from "./pages/UserPage.js";
+// import PaginationPage from "./components/pagination.js";
 
 function App() {
   const [user, setUser] = useState("");
-  const [listings, setListings] = useState("");
+  const [listings, setListings] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
-  function getUser() {
-    fetch("/getUser")
-      .then((res) => res.json())
-      .then((_user) => {
-        if (_user.username) setUser(_user.username);
-      });
-  }
-  useEffect(getUser, []);
+  useEffect(() => {
+    const storedUser = localStorage.getItem("username");
+    if (storedUser) {
+      setUser(storedUser);
+    }
+    console.log("getting user", storedUser);
+  }, []);
+
+  // useEffect(() => {
+  //   const getUser = async () => {
+  //     const _user = await fetch("/getUser").then((res) => res.json());
+  //     setUser(_user);
+  //   };
+  //   getUser();
+  //   console.log("getting user");
+  // }, []);
 
   useEffect(() => {
     const getListings = async () => {
@@ -43,51 +52,54 @@ function App() {
     getListings();
   }, []);
 
-  function onLogout() {
-    fetch("/logout").then((res) => (window.location.href = "/"));
-  }
+  useEffect(() => {
+    const getFavorites = async () => {
+      console.log("getting favorites");
+      try {
+        const _favorites = await fetch("/favorites").then((res) => res.json());
+        setFavorites(_favorites);
+      } catch (err) {
+        console.log("error ", err);
+      }
+    };
+    getFavorites();
+  }, []);
 
   return (
     <Router>
       <div className="App container">
-        <header>
-          <Link className="skip-link" href="#maincontent">Skip to main</Link>
-          <nav className="navigation navbar navbar-light">
-            <a href="/"><img src={homePageIcon} alt="Home Page" width="24" vertical-align="center"/></a>
-            <span className="blank-text" href="/">a</span>
-            <a className="navbar-brand" href="/">{" "}APartMeant4U</a>
-            <ul className="navbar-nav ml-auto">
-              {user ? (
-                <li>
-                  <Link className="nav-item" to="/getListings">Search</Link>
-                  <Link className="nav-item">User: {user}</Link>{" "}
-                  <Link className="nav-item" onClick={onLogout}>Logout</Link>
-                </li>
-              ) : (
-                <li>
-                  <Link className="nav-item" to="/login">Sign In</Link>
-                  <Link className="nav-item" to="/signup">Sign Up</Link>
-                </li>
-              )}
-            </ul>
-          </nav>
-        </header>
-
+        <Link className="skip-link" href="#maincontent">Skip to main</Link>
         <main className="row" padding-left="15px" id="maincontent">
           <div className="col-sm">
             <Switch>
-              <Route path="/login">
-                <LoginPage />
-              </Route>
-              <Route path="/signup">
-                <SignUpPage />
-              </Route>
-              <Route path="/getListings">
-                <AptListingsPage listings={listings}/>
-              </Route>
-              <Route path="/">
-                <HomePage />
-              </Route>
+              <Route exact path="/"
+                component={HomePage}
+              />
+              <Route path="/login" 
+                component={LoginPage}
+              />
+              <Route path="/signup"
+                component={SignUpPage}
+              />
+              <Route path="/listings"
+                render={(props) => (
+                  <AptListingsPage
+                    {...props}
+                    user={user}
+                    listings={listings}
+                  />
+                )}
+              />
+              <Route path="/userPage"
+                render={(props) => (
+                  <UserPage
+                    {...props}
+                    user={user}
+                    listings={listings}
+                    favorites={favorites}
+                  />
+                )}
+              />
             </Switch>
           </div>
         </main>

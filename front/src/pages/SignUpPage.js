@@ -1,8 +1,10 @@
 import "../styles/userPage.css";
+import Navigation from "../components/Navigation.js";
 
 export default function SignUpPage() {
   return (
     <div className="userPage" id="signup">
+      <Navigation />
       <br/>
       <form action="/signup" method="post">
         <div>

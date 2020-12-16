@@ -11,7 +11,7 @@ router.post("/login",
   passport.authenticate("local", { failureRedirect: "/login?msg='Invalid username or password'" }),
   (req, res) => {
     console.log("Logged In: ", req.body);
-    res.redirect("/");
+    res.redirect("/listings?username=" + req.user.username);
   });
 
 router.post("/signup", async (req, res, cb) => {
@@ -20,9 +20,10 @@ router.post("/signup", async (req, res, cb) => {
   await client.connect();
 
   const users = await aptDB.initializeUsers();
-  // let user = req.body.username;
-  // await aptDB.createTeam(user);
-  // await aptDB.createFavorites(user);
+  let user = req.body.username;
+  if (user != "") {
+    await aptDB.createFavorites(user);
+  }
 
   console.log("Trying to create user: ", req.body);
 
@@ -50,7 +51,7 @@ router.post("/signup", async (req, res, cb) => {
             res.redirect("/signup?error=Error signing in.");
           }
         });
-        res.redirect("/");
+        res.redirect("/login");
       }
     });
   }
@@ -64,9 +65,16 @@ router.get("/getUser", (req, res) => {
   console.log("user:", req.user.username);
 });
 
+router.post("/deleteUser", async (req, res) => {
+  let user = req.body.deletedUser;
+  aptDB.deleteUser(user);
+  res.redirect("/"); // redirect to home page
+});
+
 router.get("/logout", (req, res) => {
   req.logout();
-  res.send({});
+  req.session.destroy();
+  res.redirect("/?msg=Signed out successfully.");
 });
 
 router.get("/getListings", async (req, res) => {
@@ -74,6 +82,21 @@ router.get("/getListings", async (req, res) => {
   res.json(listings); // get apt listings
   console.log("Fetch listings", listings);
 });
+
+router.post("/newFav", async (req, res) => {
+  let newFav = req.body.addFav;
+  let user = req.body.user;
+  aptDB.addFavorites(user, newFav);
+  res.redirect("/userPage?username=" + req.user.username); // redirect to home page
+});
+
+router.get("/favorites", async (req, res) => {
+  const favorites = await aptDB.getFavorites();
+  res.json(favorites); // get apt listings
+  console.log("Fetch favorites", favorites);
+});
+
+
 
 
 module.exports = router;

@@ -1,7 +1,8 @@
 const passport = require("passport");
 const Strategy = require("passport-local").Strategy;
+const Session = require("express-session");
+const cookieParser = require("cookie-parser");
 
-// const db = require("../db/aptListingsDB.js");
 const MongoClient = require("mongodb").MongoClient;
 const uri = process.env.MONGO_URL || "mongodb://localhost:27017";
 const dbName = "apm4uDB";
@@ -54,12 +55,13 @@ module.exports = function configPassport(app) {
 
   app.use(require("body-parser").urlencoded({ extended: true }));
   app.use(
-    require("express-session")({
+    Session({
       secret: "apm4uDB-cookie-secret",
-      resave: false,
-      saveUninitialized: false,
+      resave: true,
+      saveUninitialized: true,
     })
   );
+  app.use(cookieParser("cookie_secret"));
 
   // Initialize Passport and restore authentication state, if any, from the
   // session.

@@ -1,8 +1,10 @@
 import "../styles/userPage.css";
+import Navigation from "../components/Navigation.js";
 
-export default function LoginPage() {
+export default function LoginPage(props) {
   return (
     <div className="userPage" id="login">
+      <Navigation />
       <br/>
       <form action="/login" method="post">
         <div>

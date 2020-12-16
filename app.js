@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const cors = require("cors");
 
 const indexRouter = require("./routes/index");
 const passportRouter = require("./routes/authRouter.js");
@@ -9,6 +10,8 @@ const passportRouter = require("./routes/authRouter.js");
 const configPassport = require("./auth/authConfig.js");
 
 const app = express();
+
+app.use(cors()); // Use this after the variable declaration
 
 app.use(logger("dev"));
 app.use(express.json());

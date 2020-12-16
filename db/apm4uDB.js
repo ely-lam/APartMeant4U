@@ -56,9 +56,55 @@ function MyDB() {
     myDB.getListings = async () => {
       const listings = db.collection("aptlistings"); // access apt listings collection
       const query = {};
-      return listings.find(query).toArray(); // return the listings file (JSON)
+      const res = listings.find(query).skip(0).limit(50).toArray();
+      return res; // return the listings file (JSON)
     };
 
+    myDB.createFavorites = async (user) => {
+      const client = new MongoClient(url, { useUnifiedTopology: true });
+      await client.connect();
+      const db = client.db(dbName);
+      const favs = db.collection("favorites");
+      const result = await favs.find({ user: user }).toArray();
+      if (result.length == 0) {
+        await favs.insertOne({
+          user: user,
+          favs: ["5fd6c8d1104c04d4827605a1"],
+        });
+      }
+      return;
+    };
+
+    myDB.getFavorites = async () => {
+      const client = new MongoClient(url, { useUnifiedTopology: true });
+      await client.connect();
+      const db = client.db(dbName); // access pokemon db
+      const favorites = db.collection("favorites"); // access player collection
+      return favorites.find({}).toArray();
+    };
+
+    myDB.addFavorites = async (user, newFav) => {
+      const client = new MongoClient(url, { useUnifiedTopology: true });
+      await client.connect();
+      const db = client.db(dbName); // access pokemon db
+      const favorites = db.collection("favorites"); // access player collection
+      await favorites.update(
+        { user: user },
+        { $addToSet: { favs: newFav } }
+      );
+      client.close();
+      return;
+    };
+
+    myDB.removeFavorite = async (user, remFav) => {
+      const client = new MongoClient(url, { useUnifiedTopology: true });
+      await client.connect();
+      const db = client.db(dbName); // access pokemon db
+      const favs = db.collection("favorites");
+      await favs.update({ _id: user }, { $pull: { favMon: remFav } });
+      return;
+    };
+    
     // client.close();
   });
 

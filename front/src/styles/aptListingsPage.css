@@ -17,6 +17,11 @@
   width: 25px;
 }
 
-.card-title {
+.card-title, .card-header, .card-footer {
   text-transform: capitalize;
+  background-color: #FFD3A6; /* light orange */
+}
+
+.card-body {
+  background-color: #72D6F5; /* light blue */
 }
