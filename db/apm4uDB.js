@@ -43,6 +43,7 @@ function MyDB() {
     };
 
     myDB.getUsers = async () => {
+      // This is correct.
       //collection
       const users = db.collection("users");
 
@@ -54,13 +55,18 @@ function MyDB() {
     };
 
     myDB.getListings = async () => {
+      // Also correct here.
       const listings = db.collection("aptlistings"); // access apt listings collection
       const query = {};
+      
+      // toArray returns a promise. So I think you should await overhere.
       const res = listings.find(query).skip(0).limit(50).toArray();
       return res; // return the listings file (JSON)
     };
 
     myDB.createFavorites = async (user) => {
+      // Remember this method is in the callback of connect (line 16). There is no reason to connect again.
+      // The right way is using the db variable directly, which is declared in line 20. You did this thing correct in getUsers and getListings.
       const client = new MongoClient(url, { useUnifiedTopology: true });
       await client.connect();
       const db = client.db(dbName);
@@ -80,6 +86,8 @@ function MyDB() {
       await client.connect();
       const db = client.db(dbName); // access pokemon db
       const favorites = db.collection("favorites"); // access player collection
+      
+      // The same problem here. 
       return favorites.find({}).toArray();
     };
 
