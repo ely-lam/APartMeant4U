@@ -171,7 +171,8 @@ function AptListingsPage(props) {
                     <h4 className="card-title">{a.mapaddress}</h4>
                   </div>
                   <div className="card-body">
-                    <p className="card-text">{a.titletextonly}</p>
+                    <p className="card-text">Description: {a.titletextonly}</p>
+                    <p className="card-text">Price: {a.price}</p>
                     <form className="text-center">
                       <button
                         className="btn btn-primary"

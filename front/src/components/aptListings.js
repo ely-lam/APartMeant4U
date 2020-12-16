@@ -14,18 +14,28 @@ export default function aptListings(props) {
   return props.listings
     .filter((a) => a._id.startsWith(props.apt))
     .map((a, idx) => (
-      <li key={idx} className="apt-li card">
+      <div key={idx} className="apt-li">
         <img
-          className="apt card-img-top"
+          className="apt"
           src={a.images[0]}
           alt={a.mapaddress}
           title={a.mapaddress}
+          width="200"
         />{" "}
-        <div className="card-header">
-          <h4 className="card-title">{a.mapaddress}</h4>
+        <img
+          className="apt"
+          src={a.images[1]}
+          alt={a.mapaddress}
+          title={a.mapaddress}
+          width="200"
+        />{" "}
+        <div className="header">
+          <h4 className="title">{a.mapaddress}</h4>
         </div>
-        <div className="card-body">
-          <p className="card-text">{a.titletextonly}</p>
+        <div className="body">
+          <p className="text">Description: {a.titletextonly}</p>
+          <p className="text">Price: {a.price}</p>
+          <p className="text">Housing: {a.housing}</p>
           <form className="text-center" action="/newFav" method="post">
             <input
               type="hidden"
@@ -42,8 +52,8 @@ export default function aptListings(props) {
             <button className="btn btn-primary" type="submit">Add to favorites</button>
           </form>
         </div>
-        <div className="card-footer text-muted">
-          <a className="card-link" href="#">
+        <div className="footer text-muted">
+          <a className="link" href="#">
             <img
               className="tag"
               src={parkingImg}
@@ -51,7 +61,7 @@ export default function aptListings(props) {
               title="Parking available"
             />
           </a>
-          <a className="card-link" href="#">
+          <a className="link" href="#">
             <img
               className="tag"
               src={laundryImg}
@@ -60,6 +70,6 @@ export default function aptListings(props) {
             />
           </a>
         </div>
-      </li>
+      </div>
     ));
 }
