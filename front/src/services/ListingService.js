@@ -24,7 +24,7 @@ const addListing = (payload) => {
   return axios.post(env[process.env.NODE_ENV].api + "/getListings/add", payload);
 };
 
-export default {
+module.exports = {
   getAllListings,
   searchAllListings,
   listing,
