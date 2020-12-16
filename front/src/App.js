@@ -15,7 +15,6 @@ import SignUpPage from "./pages/SignUpPage.js";
 import HomePage from "./pages/HomePage.js";
 import AptListingsPage from "./pages/AptListingsPage.js";
 import UserPage from "./pages/UserPage.js";
-// import PaginationPage from "./components/pagination.js";
 
 function App() {
   const [user, setUser] = useState("");
@@ -29,15 +28,6 @@ function App() {
     }
     console.log("getting user", storedUser);
   }, []);
-
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     const _user = await fetch("/getUser").then((res) => res.json());
-  //     setUser(_user);
-  //   };
-  //   getUser();
-  //   console.log("getting user");
-  // }, []);
 
   useEffect(() => {
     const getListings = async () => {
@@ -109,6 +99,7 @@ function App() {
         <footer className="footer">
           <div>APartMeant4U - Ely Lam 2020 ©</div>
           <div>Icons made by <a className="copyright-link" href="https://www.flaticon.com/authors/monkik" title="monkik">monkik</a> from <a className="copyright-link" href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+          <div>Favicon made by <a href="https://www.flaticon.com/authors/becris" title="Becris">Becris</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
         </footer>
       </div>
     </Router>

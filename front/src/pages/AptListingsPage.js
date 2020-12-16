@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Pagination from "@material-ui/lab/Pagination";
-// import { getAllListings, searchAllListings } from "../../api/thread";
 
 import ListingService from "../services/ListingService.js";
 import ListingDetails from "../components/aptListings.js";

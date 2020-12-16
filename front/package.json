@@ -20,10 +20,12 @@
     "reactstrap": "^8.7.1",
     "web-vitals": "^0.2.4"
   },
+  "main": "../routes/authRouter.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "proxy": "http://localhost:5000",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
