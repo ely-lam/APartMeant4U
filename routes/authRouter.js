@@ -77,7 +77,9 @@ router.get("/logout", (req, res) => {
   res.redirect("/?msg=Signed out successfully.");
 });
 
+// Seems like you are doing something else here. I suggest that we should move /getListings, /newFav, and /favorites to another router.
 router.get("/getListings", async (req, res) => {
+  // Okay, I see that you await the promise here. Mostly, for the reabability, we await at the line of code that returns the promise object.
   const listings = await aptDB.getListings();
   res.json(listings); // get apt listings
   console.log("Fetch listings", listings);
